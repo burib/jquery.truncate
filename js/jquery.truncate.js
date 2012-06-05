@@ -36,14 +36,14 @@
         var lastDelimiterChar,
             width,
             height,
-            origDisplay,
+            origDisplayValue,
             dots = Array(plugin.settings.numDots+1).join('.'), //how many dot's to add
             supportValueAttr = !!element.value,
             tempValue = plugin.settings.rtl ? dots + $.trim($element.data('origText')) : $.trim($element.data('origText')) + dots;
 
           if (!!plugin.settings.width) {
             width = parseInt(plugin.settings.width,10);
-            origDisplay = $element.css('display');
+            origDisplayValue = $element.css('display');
             $element.css('display','inline');
 
             for (;width < $element.outerWidth();) {
@@ -56,13 +56,11 @@
               }
             }
 
-            $element.css('display', origDisplay);
+            $element.css('display', origDisplayValue);
           }
 
           if (!!plugin.settings.height) {
             height = parseInt(plugin.settings.height,10);
-            // TODO RTL
-            // TODO change to for loop
             for (;height < $element.outerHeight();) {
               if (plugin.settings.rtl) {
                 tempValue = tempValue.substr(-(tempValue.length-plugin.settings.numDots-1));
@@ -82,6 +80,7 @@
              else {
                tempValue = tempValue.substring(plugin.settings.startsFrom, plugin.settings.length);
              }
+             // TODO support RTL
              return supportValueAttr ? $element.val(tempValue+dots) : $element.text(tempValue+dots);
           }
 
