@@ -5,7 +5,7 @@
         <meta name="description" content="" />
         <meta http-equiv="content-language" content="hu-HUN" />
         <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-        <script src="http://code.jquery.com/jquery-1.6.4.js"></script>
+        <script src="http://code.jquery.com/jquery-1.7.1.js"></script>
         <script src="js/jquery.truncate.js"></script>
         <script>
             $(function(){
@@ -16,12 +16,12 @@
                 $('#widthTest').truncate({width: 200, numDots:3});
                 $('#heightTest').truncate({height: 40, numDots:3, attrName: 'title'});
                 */
-                $('#rtlTest').truncate({numDots: 3, rtl: true, width: 200 });
+                $('#rtlTest').truncate({numDots: 2, rtl: true, width: 220, callback: function() {} });
             });
         </script>
-        
+
         <title>jquery.truncate</title>
-        
+
         <style>
             body {
                 font:12px/135% arial,helvetica,clean,sans-serif;
@@ -29,7 +29,7 @@
         </style>
 
     </head>
-    <body>   
+    <body>
         <p>              Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
         quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
@@ -94,7 +94,7 @@
         <br/>
         <br/>
         <span id="rtlTest">
-                LOFASZ
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
         </span>
 
     </body>

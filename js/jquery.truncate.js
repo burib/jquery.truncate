@@ -1,7 +1,7 @@
 /**
  * @author Balazs_Buri
  * jQuery truncate v0.1
- * TODO: RTL support, smartSize support
+ * TODO: RTL support, smartSize support, callback option
  */
 /*extern jQuery */
 (function($) {
@@ -34,33 +34,26 @@
 
       truncate = function() {
         var lastDelimiterChar,
-            i = 0,
             width,
             height,
             origDisplay,
             dots = Array(plugin.settings.numDots+1).join('.'), //how many dot's to add
             supportValueAttr = !!element.value,
-            tempValue = $.trim($element.data('origText'));
+            tempValue = plugin.settings.rtl ? dots + $.trim($element.data('origText')) : $.trim($element.data('origText')) + dots;
 
           if (!!plugin.settings.width) {
             width = parseInt(plugin.settings.width,10);
             origDisplay = $element.css('display');
             $element.css('display','inline');
 
-            /*while ( width <= $element.outerWidth() ) {
-              tempValue = plugin.settings.rtl ? ( dots + tempValue.substr(-tempValue.length-plugin.settings.numDots).substr(-tempValue.length-1) ) : ( tempValue.replace(dots,'').substring(0, tempValue.length-(plugin.settings.numDots+1)) + dots );
-              $element.text(tempValue);
-            }
-            */
-            if (plugin.settings.rtl) {
-              for (; i < plugin.settings.numDots; i++) {
-                tempValue = dots + tempValue;
-                tempValue = tempValue.substr( (tempValue.length-1-plugin.settings.numDots)*-1 ); //TODO startsFrom parameter
-                tempValue = dots + tempValue;
-                $element.text(tempValue);
+            for (;width < $element.outerWidth();) {
+              if (plugin.settings.rtl) {
+                tempValue = tempValue.substr(-(tempValue.length-plugin.settings.numDots-1));
+                $element.text(dots+tempValue);
+              } else {
+                tempValue = tempValue.substr(0, tempValue.length-plugin.settings.numDots-1);
+                $element.text(tempValue+dots);
               }
-            } else {
-              //TODO LTR PART
             }
 
             $element.css('display', origDisplay);
