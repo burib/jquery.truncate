@@ -63,9 +63,14 @@
             height = parseInt(plugin.settings.height,10);
             // TODO RTL
             // TODO change to for loop
-            while ( height <= $element.outerHeight() ) {
-              tempValue = tempValue.replace(dots,'').substring(0, tempValue.length-(plugin.settings.numDots+1))+dots;
-              $element.text(tempValue);
+            for (;height < $element.outerHeight();) {
+              if (plugin.settings.rtl) {
+                tempValue = tempValue.substr(-(tempValue.length-plugin.settings.numDots-1));
+                $element.text(dots+tempValue);
+              } else {
+                tempValue = tempValue.substr(0, tempValue.length-plugin.settings.numDots-1);
+                $element.text(tempValue+dots);
+              }
             }
           }
 
