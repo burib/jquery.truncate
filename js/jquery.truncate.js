@@ -1,0 +1,109 @@
+/**
+ * @author Balazs_Buri
+ * jQuery truncate v0.1
+ * TODO: RTL support, smartSize support
+ */
+/*extern jQuery */
+(function($) {
+   $.truncate = function(element, options) {
+      var defaults = {
+         startsFrom: 0,        //you can set where the truncate should start from               || int     ||
+         length: 70,          //you can set how many characters you want to truncate            || int     ||
+         wordSafe: true,      //if it's set to false then it will can cut the words into half   || boolean ||
+         rtl: false,          //Right To Left direction ?                                       || boolean ||
+         numDots: 0,          //you can add any dots to the end                                 || int     ||
+         attrName: null,      //you can add the original text to any attribute                  || string  ||
+         width: null,         //you can truncate also by width ( in px )                        || int     ||
+         height: null         //you can truncate also by height ( in px )                       || int     ||
+      },
+
+      plugin = this,
+      $element = $(element),
+
+      setOrigValue = function() {
+         //getAttribute() vs. property
+         //http://jsperf.com/getattribute-vs-property/2
+         return $element.data('origText', element.textContent || $element.text() || element.getAttribute('value'));
+      },
+
+      setAttr = function() {
+         if (!!plugin.settings.attrName) {
+            return $element.attr(plugin.settings.attrName, $.trim($element.data('origText')));
+         }
+      },
+
+      truncate = function() {
+        var lastDelimiterChar,
+            i = 0,
+            width,
+            height,
+            origDisplay,
+            dots = Array(plugin.settings.numDots+1).join('.'), //how many dot's to add
+            supportValueAttr = !!element.value,
+            tempValue = $.trim($element.data('origText'));
+
+          if (!!plugin.settings.width) {
+            width = parseInt(plugin.settings.width,10);
+            origDisplay = $element.css('display');
+            $element.css('display','inline');
+
+            /*while ( width <= $element.outerWidth() ) {
+              tempValue = plugin.settings.rtl ? ( dots + tempValue.substr(-tempValue.length-plugin.settings.numDots).substr(-tempValue.length-1) ) : ( tempValue.replace(dots,'').substring(0, tempValue.length-(plugin.settings.numDots+1)) + dots );
+              $element.text(tempValue);
+            }
+            */
+            if (plugin.settings.rtl) {
+              for (; i < plugin.settings.numDots; i++) {
+                tempValue = dots + tempValue;
+                tempValue = tempValue.substr( (tempValue.length-1-plugin.settings.numDots)*-1 ); //TODO startsFrom parameter
+                tempValue = dots + tempValue;
+                $element.text(tempValue);
+              }
+            } else {
+              //TODO LTR PART
+            }
+
+            $element.css('display', origDisplay);
+          }
+
+          if (!!plugin.settings.height) {
+            height = parseInt(plugin.settings.height,10);
+            // TODO RTL
+            // TODO change to for loop
+            while ( height <= $element.outerHeight() ) {
+              tempValue = tempValue.replace(dots,'').substring(0, tempValue.length-(plugin.settings.numDots+1))+dots;
+              $element.text(tempValue);
+            }
+          }
+
+          if ( !plugin.settings.width && !plugin.settings.height && tempValue.length >= plugin.settings.length + plugin.settings.startsFrom ) {
+             if (plugin.settings.wordSafe) {
+               lastDelimiterChar = tempValue.lastIndexOf(' ', plugin.settings.length);
+               tempValue = (lastDelimiterChar > 0) ? tempValue.substring(plugin.settings.startsFrom, lastDelimiterChar) : tempValue.substring(plugin.settings.startsFrom, plugin.settings.length);
+             }
+             else {
+               tempValue = tempValue.substring(plugin.settings.startsFrom, plugin.settings.length);
+             }
+             return supportValueAttr ? $element.val(tempValue+dots) : $element.text(tempValue+dots);
+          }
+
+      };
+
+      plugin.init = function() {
+         plugin.settings = $.extend({}, defaults, options);   //overwrite the default options
+         setOrigValue();                                      //save the original value as $.fn.data();
+         setAttr();                                           //add the original value to the element's given attribute
+         truncate();                                          //truncate the element's text as settings.
+      }();
+   };
+
+   $.fn.truncate = function(options) {
+      return this.each(function() {
+         if (undefined === $(this).data('truncate')) {
+            var plugin = new $.truncate(this, options);
+            $(this).data('truncate', plugin);
+         }
+      });
+   };
+
+})(jQuery);
