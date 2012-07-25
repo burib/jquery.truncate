@@ -1,7 +1,7 @@
 ## Truncate like a sir!
 ***
 
-```javascript
+```
 $(function(){
     $('p').truncate({
         length: 50,
