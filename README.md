@@ -1,6 +1,6 @@
-## Welcome to the jquery.truncate wiki!
+## Truncate like a sir!
 
-`
+>
 $(function(){
     $('p').truncate({
         length: 50,
@@ -8,4 +8,4 @@ $(function(){
         rtl: true
     });
 });
-`
+>
