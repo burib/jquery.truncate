@@ -1,8 +1,8 @@
 ## Truncate like a sir!
 
 >
-`
-<script>
+
+
 $(function(){
 	$('p').truncate({
 		length: 50,
@@ -10,6 +10,5 @@ $(function(){
 		rtl: true
 	});
 });
-<script>
-`
+
 >
