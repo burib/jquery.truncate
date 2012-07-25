@@ -1,0 +1,1 @@
+{"body":"## Truncate like a sir!\r\n***\r\n\r\n```js\r\n$(function(){\r\n    $('p').truncate({\r\n        length: 50,\r\n        numDots: 10,\r\n        rtl: true\r\n    });\r\n});\r\n```","tagline":"jquery.truncate","note":"Don't delete this file! It's used internally to help with page regeneration.","google":"","name":"Jquery.truncate"}
